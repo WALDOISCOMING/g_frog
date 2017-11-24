@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="net.frog.dao.diners.DinersDao">
+	<resultMap type="DinersVO" id="contentResultMap">
+    	<id column="no" property="no"/>
+		<result column="diner_name" property="diner_name"/>
+		<result column="diner_call" property="diner_call"/>
+		<result column="intro" property="intro"/>
+		<result column="posting_date" property="posting_date" javaType="java.sql.Date"/>
+	</resultMap>
+ 
+ 	<select id="count" resultType="int">
+		select count(*) from diners
+	</select>
+	
+	<select id="select_diners" parameterType="int"   resultType="DinersVO">
+		select * from diners where no = #{no}
+	</select>
+	
+	<select id="select_diners_photopath" parameterType="DinersPhotoVO"  resultType="java.lang.String">
+		select stored_file_path from diners_photo_path 
+		where diners_photo_no =(select no from diners_photo where diners_no=#{diners_no} and diners_photo_value=#{diners_photo_value})
+	</select>
+	
+	<select id="searchList" resultType="DinersVO">
+		select * from diners where diner_name = #{diner_name}
+	</select>
+	
+	<select id="selectList" resultType="DinersVO">
+		select * from diners limit #{offset},#{limit}
+	</select>
+</mapper>

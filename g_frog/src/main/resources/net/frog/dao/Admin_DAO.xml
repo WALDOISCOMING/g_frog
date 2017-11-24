@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.frog.dao.admin.AdminDao">
+	<resultMap type="DinersVO" id="contentResultMap">
+    	<id column="no" property="no"/>
+		<result column="diner_name" property="diner_name"/>
+		<result column="diner_call" property="diner_call"/>
+		<result column="intro" property="intro"/>
+		<result column="rest_day" property="rest_day"/>
+		<result column="diner_directory_name" property="diner_directory_name"/>
+		<result column="posting_date" property="posting_date" javaType="java.sql.Date"/>
+	</resultMap>
+  	<insert id="insert_dinersVO" parameterType="DinersVO">
+ 		insert into diners (diner_name,diner_call,intro,rest_day,diner_directory_name,posting_date)
+		values(#{diner_name},#{diner_call},#{intro},#{rest_day},#{diner_directory_name},now())	
+ 	</insert>  
+  <!-- no, diners_no, diners_photo_value, original_file_name, stored_file_name -->
+  	<insert id="insert_dinersPhotoVO" parameterType="DinersPhotoVO">
+  		insert into diners_photo (diners_no,diners_photo_value,original_file_name,stored_file_name)
+  		values(#{diners_no},#{diners_photo_value},#{original_file_name},#{stored_file_name})
+  	</insert>
+  	<!-- no, diners_photo_no, stored_file_path -->
+  	<insert id="insert_dinersPhotopathVO" parameterType="DinersPhotopathVO">
+  		insert into diners_photo_path (diners_photo_no,stored_file_path)
+  		values(#{diners_photo_no},#{stored_file_path})
+  	</insert>
+  	<select resultType="int" id="now_dinersVO">
+  		select no from diners order by no desc limit 1
+  	</select>
+  	<select resultType="int" id="now_dinersPhotoVO">
+  		select no from diners_photo order by no desc limit 1
+  	</select>
+ 	<select id="select_path" resultType="String">
+  		select diner_directory_name from diners where no = #{no}
+  	</select>
+  		
+  	<delete id="delete">
+  		delete  from diners where no = #{no}
+  	</delete>
+  		
+  	<update id="update">
+		update diners set diner_name=#{diner_name},diner_call=#{diner_call},intro=#{intro},rest_day=#{rest_day}   where no=#{no}	
+  	</update>
+</mapper>

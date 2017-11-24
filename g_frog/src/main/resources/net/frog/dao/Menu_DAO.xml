@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="net.frog.dao.menu.MenuDao">
+	<resultMap type="MenuVO" id="menuResultMap">
+    	<id column="no" property="no"/>
+		<result column="diners_no" property="diners_no"/>
+		<result column="menu_name" property="menu_name"/>
+		<result column="menu_main" property="menu_main"/>
+			<result column="menu_original_price" property="menu_original_price"/>
+				<result column="menu_sale" property="menu_sale"/>
+		<result column="menu_start_date" property="menu_start_date" javaType="java.sql.Date"/>
+		<result column="menu_end_date" property="menu_end_date" javaType="java.sql.Date"/>
+		<result column="menu_photo" property="menu_photo"/>
+	</resultMap>
+	
+ <insert id="insert_menuVO" parameterType="MenuVO">
+  		insert into menu (diners_no,menu_name,menu_main,menu_original_price,menu_sale,menu_start_date,menu_end_date,menu_photo)
+  		values (#{diners_no},#{menu_name},#{menu_main},#{menu_original_price},#{menu_sale},#{menu_start_date},#{menu_end_date},#{menu_photo})
+  	</insert>
+  	
+  	<select id="selectList" parameterType="int"  resultType="MenuVO"  resultMap="menuResultMap">
+		select * from menu where diners_no = #{diners_no}
+	</select>
+	
+	<select id="selectOne" parameterType="int"  resultType="MenuVO"> 	
+		select * from menu where no=#{no}
+	</select>
+	<delete id="delete" parameterType="int">
+		delete from menu where no = #{no} 
+	</delete>
+		<update id="update">
+		update menu set menu_name=#{menu_name},menu_original_price=#{menu_original_price},
+		menu_main=#{menu_main},menu_sale=#{menu_sale},menu_start_date=#{menu_start_date},menu_end_date=#{menu_end_date},menu_photo=#{menu_photo}      
+		where no=#{no}	
+  	</update>
+</mapper>
